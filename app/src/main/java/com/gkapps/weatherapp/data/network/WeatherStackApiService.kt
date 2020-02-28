@@ -1,8 +1,8 @@
-package com.gkapps.weatherapp.data
+package com.gkapps.weatherapp.data.network
 
 import com.gkapps.weatherapp.BuildConfig
-import com.gkapps.weatherapp.BuildConfig.API_KEY
 import com.gkapps.weatherapp.data.network.response.CurrentWeatherResponse
+import com.gkapps.weatherapp.data.network.response.FutureWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -23,14 +23,22 @@ interface WeatherStackApiService {
         @Query("query") location: String
     ) : Deferred<CurrentWeatherResponse>
 
+    @GET("forecast")
+    fun getFutureWeather(
+        @Query("query") location: String,
+        @Query("forecast_days") days: Int
+    ): Deferred<FutureWeatherResponse>
+
     companion object{
-        operator fun invoke() : WeatherStackApiService {
+        operator fun invoke(instance: Any): WeatherStackApiService {
             val requestInterceptor = Interceptor { chain ->
 
                 val url = chain.request()
                     .url()
                     .newBuilder()
-                    .addQueryParameter("access_key", API_KEY_VALUE)
+                    .addQueryParameter("access_key",
+                        API_KEY_VALUE
+                    )
                     //.addQueryParameter("units","metric")
                     .build()
                 val request = chain.request()

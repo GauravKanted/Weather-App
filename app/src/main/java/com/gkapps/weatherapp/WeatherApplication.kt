@@ -3,8 +3,7 @@ package com.gkapps.weatherapp
 
 import android.app.Application
 import android.content.Context
-import android.preference.PreferenceManager
-import com.gkapps.weatherapp.data.WeatherStackApiService
+import com.gkapps.weatherapp.data.network.WeatherStackApiService
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.gkapps.weatherapp.data.db.ForecastDatabase
@@ -34,7 +33,11 @@ class WeatherApplication : Application(), KodeinAware {
         bind() from singleton { instance<ForecastDatabase>().futureWeatherDao() }
         bind() from singleton { instance<ForecastDatabase>().weatherLocationDao() }
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) }
-        bind() from singleton { WeatherStackApiService(instance()) }
+        bind() from singleton {
+            WeatherStackApiService(
+                instance()
+            )
+        }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
         bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
@@ -62,6 +65,5 @@ class WeatherApplication : Application(), KodeinAware {
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
     }
 }

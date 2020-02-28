@@ -1,25 +1,16 @@
 package com.gkapps.weatherapp.ui.weather.current
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-
+import androidx.lifecycle.ViewModelProviders
 import com.gkapps.weatherapp.R
-import com.gkapps.weatherapp.data.network.ApixuWeatherApiService
-import com.gkapps.weatherapp.data.network.ConnectivityInterceptorImpl
-import com.gkapps.weatherapp.data.network.WeatherNetworkDataSourceImpl
-import com.gkapps.weatherapp.internal.glide.GlideApp
 import com.gkapps.weatherapp.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.current_weather_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
@@ -52,12 +43,12 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
         val weatherLocation = viewModel.weatherLocation.await()
 
-        weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
+        weatherLocation.observe(viewLifecycleOwner, Observer { location ->
             if (location == null) return@Observer
             updateLocation(location.name)
         })
 
-        currentWeather.observe(this@CurrentWeatherFragment, Observer {
+        currentWeather.observe(viewLifecycleOwner, Observer {
             if (it == null) return@Observer
 
             group_loading.visibility = View.GONE
@@ -68,9 +59,9 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             updateWind(it.windDirection, it.windSpeed)
             updateVisibility(it.visibilityDistance)
 
-            GlideApp.with(this@CurrentWeatherFragment)
+            /*GlideApp.with(this@CurrentWeatherFragment)
                 .load("http:${it.conditionIconUrl}")
-                .into(imageView_condition_icon)
+                .into(imageView_condition_icon)*/
         })
     }
 

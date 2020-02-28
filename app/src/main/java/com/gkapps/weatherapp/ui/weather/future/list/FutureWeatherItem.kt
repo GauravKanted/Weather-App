@@ -3,10 +3,8 @@ package com.gkapps.weatherapp.ui.weather.future.list
 import com.gkapps.weatherapp.R
 import com.gkapps.weatherapp.data.db.unitlocalized.future.list.MetricSimpleFutureWeatherEntry
 import com.gkapps.weatherapp.data.db.unitlocalized.future.list.UnitSpecificSimpleFutureWeatherEntry
-import com.gkapps.weatherapp.internal.glide.GlideApp
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
-import kotlinx.android.synthetic.main.item_future_weather.*
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 

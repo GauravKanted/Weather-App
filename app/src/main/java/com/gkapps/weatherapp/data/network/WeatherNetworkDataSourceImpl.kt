@@ -3,7 +3,6 @@ package com.gkapps.weatherapp.data.network
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.gkapps.weatherapp.data.WeatherStackApiService
 import com.gkapps.weatherapp.data.network.response.CurrentWeatherResponse
 import com.gkapps.weatherapp.internal.NoConnectivityException
 import com.gkapps.weatherapp.data.network.response.FutureWeatherResponse
@@ -40,7 +39,7 @@ class WeatherNetworkDataSourceImpl(
     ) {
         try {
             val fetchedFutureWeather = weatherStackApiService
-                .getFutureWeather(location, FORECAST_DAYS_COUNT, languageCode)
+                .getFutureWeather(location, FORECAST_DAYS_COUNT)
                 .await()
             _downloadedFutureWeather.postValue(fetchedFutureWeather)
         }
